@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mitti Store</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/shop">Mitti Store</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#/shop" data-nav="shop">Shop</a>
+      <a href="#/orders" data-nav="orders" id="nav-orders" hidden>Orders</a>
+      <a href="#/cart" data-nav="cart">Cart <span class="pill" id="cart-count">0</span></a>
+      <a href="#/login" data-nav="login" id="nav-login">Log in</a>
+      <span class="who" id="who" hidden></span>
+      <button type="button" class="link-btn" id="logout" hidden>Log out</button>
+    </nav>
+  </header>
+
+  <main class="page" id="main">
+    <p class="notice" id="notice" role="status" hidden></p>
+
+    <!-- Shop -->
+    <section id="view-shop" class="view" aria-labelledby="shop-title">
+      <div class="head-row">
+        <h1 id="shop-title">Shop</h1>
+        <div class="field search">
+          <label for="search">Search products</label>
+          <input id="search" type="search" placeholder="Mug, candle, lamp" autocomplete="off">
+        </div>
+      </div>
+      <ul class="products" id="products"></ul>
+      <p class="muted" id="no-products" hidden>No products match your search.</p>
+    </section>
+
+    <!-- Cart -->
+    <section id="view-cart" class="view" aria-labelledby="cart-title" hidden>
+      <h1 id="cart-title">Your cart</h1>
+      <p class="muted" id="cart-empty" hidden>Your cart is empty. <a href="#/shop">Browse the shop</a>.</p>
+      <ul class="cart-lines" id="cart-lines"></ul>
+      <div class="cart-foot" id="cart-foot" hidden>
+        <p class="total">Total <strong id="cart-total">$0.00</strong></p>
+        <div class="row-actions">
+          <button type="button" class="btn btn-ghost" id="clear-cart">Clear cart</button>
+          <a class="btn btn-primary" href="#/checkout" id="to-checkout">Checkout</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Checkout -->
+    <section id="view-checkout" class="view" aria-labelledby="checkout-title" hidden>
+      <h1 id="checkout-title">Checkout</h1>
+      <div class="checkout-grid">
+        <form id="pay-form" class="card-form" novalidate autocomplete="off">
+          <h2>Payment</h2>
+          <p class="badge-sandbox" id="mode-badge">Test mode: no real money is charged.</p>
+          <div class="field">
+            <label for="card-number">Card number</label>
+            <input id="card-number" name="number" inputmode="numeric" autocomplete="off" placeholder="4242 4242 4242 4242" maxlength="23">
+          </div>
+          <div class="two">
+            <div class="field">
+              <label for="card-exp">Expiry (MM/YY)</label>
+              <input id="card-exp" name="exp" inputmode="numeric" autocomplete="off" placeholder="12/30" maxlength="5">
+            </div>
+            <div class="field">
+              <label for="card-cvc">Security code</label>
+              <input id="card-cvc" name="cvc" inputmode="numeric" autocomplete="off" placeholder="123" maxlength="4">
+            </div>
+          </div>
+          <p class="form-error" id="pay-error" role="alert"></p>
+          <button type="submit" class="btn btn-primary" id="pay-btn">Pay</button>
+          <details class="test-cards">
+            <summary>Test card numbers</summary>
+            <ul id="test-cards"></ul>
+            <p class="muted">Use any future expiry date and any 3 digit code.</p>
+          </details>
+        </form>
+        <aside class="summary" aria-label="Order summary">
+          <h2>Order summary</h2>
+          <ul id="summary-lines"></ul>
+          <p class="total">Total <strong id="summary-total">$0.00</strong></p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Receipt -->
+    <section id="view-receipt" class="view" aria-labelledby="receipt-title" hidden>
+      <h1 id="receipt-title">Thank you for your order</h1>
+      <div class="receipt" id="receipt"></div>
+      <a class="btn btn-primary" href="#/shop">Continue shopping</a>
+    </section>
+
+    <!-- Orders -->
+    <section id="view-orders" class="view" aria-labelledby="orders-title" hidden>
+      <h1 id="orders-title">Your orders</h1>
+      <p class="muted" id="orders-empty" hidden>You have no orders yet.</p>
+      <ul class="orders" id="orders"></ul>
+    </section>
+
+    <!-- Log in / register -->
+    <section id="view-login" class="view narrow" aria-labelledby="login-title" hidden>
+      <h1 id="login-title">Log in</h1>
+      <form id="login-form" class="auth-form" novalidate>
+        <div class="field"><label for="login-email">Email</label><input id="login-email" name="email" type="email" autocomplete="email"></div>
+        <div class="field"><label for="login-password">Password</label><input id="login-password" name="password" type="password" autocomplete="current-password"></div>
+        <p class="form-error" id="login-error" role="alert"></p>
+        <button type="submit" class="btn btn-primary">Log in</button>
+      </form>
+      <p class="muted">New here? <a href="#/register">Create an account</a></p>
+    </section>
+
+    <section id="view-register" class="view narrow" aria-labelledby="register-title" hidden>
+      <h1 id="register-title">Create account</h1>
+      <form id="register-form" class="auth-form" novalidate>
+        <div class="field"><label for="reg-name">Name</label><input id="reg-name" name="name" type="text" autocomplete="name" maxlength="60"></div>
+        <div class="field"><label for="reg-email">Email</label><input id="reg-email" name="email" type="email" autocomplete="email"></div>
+        <div class="field"><label for="reg-password">Password (8 characters or more)</label><input id="reg-password" name="password" type="password" autocomplete="new-password"></div>
+        <p class="form-error" id="register-error" role="alert"></p>
+        <button type="submit" class="btn btn-primary">Create account</button>
+      </form>
+      <p class="muted">Already have an account? <a href="#/login">Log in</a></p>
+    </section>
+  </main>
+
+  <footer class="foot">Mitti Store is a demo shop. Payments run in test mode only.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
